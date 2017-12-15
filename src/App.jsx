@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Header from './Header.jsx';
-import Embed from 'react-runkit';
+import CodeTextArea from './CodeTextArea.jsx';
 import Footer from './Footer.jsx';
 
 class App extends Component {
@@ -9,7 +9,7 @@ class App extends Component {
       <div>
       <Header />
       <h1>Hello and Lets Code :)</h1>
-      <Embed />
+      <CodeTextArea/>
       <Footer/>
       </div>
     );
