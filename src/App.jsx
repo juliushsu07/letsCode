@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Header from './Header.jsx';
-import Embed from 'react-runkit';
 import Footer from './Footer.jsx';
+import CodeMirror from 'react-codemirror';
 
 class App extends Component {
 
@@ -10,27 +10,31 @@ class App extends Component {
 
     this.state =
     {
-      user: {
-        name: "Anonymous"
+      user : {
+        name : "Anonymous"
       },
-      code:""
+      code : `console.log("Hello, world!!")`
     }
 
-    this.onChangeCode = this.onChangeCode.bind(this);
+    this.updateCode = this.updateCode.bind(this);
 
   }
 
-  onChangeCode(e){
-    let newCode = e.target.value
-    console.log(newCode);
+  updateCode(newCode){
+    this.setState({code: newCode});
+    console.log(this.state);
   }
+
 
   render() {
+    var options = {
+        lineNumbers: true
+    };
     return (
       <div>
       <Header />
       <h1>Hello and Lets Code :)</h1>
-      <Embed onChangeCode = {this.onChangeCode} />
+      <CodeMirror value={this.state.user.code} onChange={this.updateCode} options={options} />
       <Footer/>
       </div>
     );

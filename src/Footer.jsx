@@ -4,12 +4,12 @@ class Footer extends Component {
 
   render() {
     return (
-     <nav class="  navbar-default navbar-fixed-bottom">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#">letsChat</a>
+     <nav className="  navbar-default navbar-fixed-bottom">
+        <div className="container-fluid">
+          <div className="navbar-header">
+            <a className="navbar-brand" href="#">letsChat</a>
           </div>
-          <ul class="nav navbar-nav navbar-right">
+          <ul className="nav navbar-nav navbar-right">
             <li><a href="#">Share Code</a></li>
             <li><a href="#">Chat</a></li>
             <li><a href="#">Place Call</a></li>
