@@ -29,16 +29,16 @@ class App extends Component {
 
     this.socket.onmessage = (e) => {
       const data = JSON.parse(event.data);
+      console.log("msg back: ",data.content);
+      this.setState({code: data.content});
     }
   }
 
   updateCode(newCodeContent){
     const newCode = {
-        username: this.state.user.name ,
         content: newCodeContent
     }
     this.socket.send(JSON.stringify(newCode));
-    this.setState({code: newCodeContent});
     console.log(this.state.code);
   }
 
@@ -51,7 +51,7 @@ class App extends Component {
       <div>
       <Header />
       <h1>Hello and Lets Code :)</h1>
-      <CodeMirror value={this.state.user.code} onChange={this.updateCode} options={options} />
+      <CodeMirror value={this.state.code} onChange={this.updateCode} options={options} />
       <Footer/>
       </div>
     );
