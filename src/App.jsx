@@ -20,9 +20,26 @@ class App extends Component {
 
   }
 
-  updateCode(newCode){
-    this.setState({code: newCode});
-    console.log(this.state);
+
+  componentDidMount() {
+    this.socket = new WebSocket("ws://localhost:3001/");
+    this.socket.onopen = (e) => {
+      console.log('connected to server');
+    }
+
+    this.socket.onmessage = (e) => {
+      const data = JSON.parse(event.data);
+    }
+  }
+
+  updateCode(newCodeContent){
+    const newCode = {
+        username: this.state.user.name ,
+        content: newCodeContent
+    }
+    this.socket.send(JSON.stringify(newCode));
+    this.setState({code: newCodeContent});
+    console.log(this.state.code);
   }
 
 
