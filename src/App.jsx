@@ -27,7 +27,7 @@ class App extends Component {
 
   handleSubmit(event){
     event.preventDefault();
-    evaluateCode(this.state.code_text);
+    this.evaluateCode(this.state.code_text);
     console.log("evaluted code: ", this.state.evaluated_code);
   }
 
