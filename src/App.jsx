@@ -3,6 +3,7 @@ import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import CodeMirror from 'react-codemirror';
 
+
 class App extends Component {
 
   constructor(props){
@@ -17,41 +18,38 @@ class App extends Component {
     }
 
     this.updateCode = this.updateCode.bind(this);
-
   }
-
 
   componentDidMount() {
     this.socket = new WebSocket("ws://localhost:3001/");
-    this.socket.onopen = (e) => {
+    this.socket.onopen = () => {
       console.log('connected to server');
     }
-
-    this.socket.onmessage = (e) => {
+    this.socket.onmessage = () => {
       const data = JSON.parse(event.data);
-      console.log("msg back: ",data.content);
       this.setState({code: data.content});
     }
   }
+
 
   updateCode(newCodeContent){
     const newCode = {
         content: newCodeContent
     }
     this.socket.send(JSON.stringify(newCode));
-    console.log(this.state.code);
   }
 
 
   render() {
-    var options = {
+    let options = {
         lineNumbers: true
     };
+
     return (
       <div>
       <Header />
       <h1>Hello and Lets Code :)</h1>
-      <CodeMirror value={this.state.code} onChange={this.updateCode} options={options} />
+      <CodeMirror value={this.state.code} ref="cm_instance" onChange={this.updateCode} options={options} />
       <Footer/>
       </div>
     );
