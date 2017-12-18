@@ -14,9 +14,9 @@ class App extends Component {
       },
       code : `var print = function (something) {return something;}
               print("it works");`,
-      evaluated_code:"hmm"
+      evaluated_code:"initial unevaluated CodeText"
     }; //end of set initial state Object
-    // this.changeTextHandler = this.changeTextHandler.bind(this)
+
     this.evaluateCode = this.evaluateCode.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateCode = this.updateCode.bind(this);
@@ -28,15 +28,6 @@ class App extends Component {
     console.log(`new code state: ${this.state.code}`);
     console.log(this.state);
   }
-
-
-  // changeTextHandler (event) {
-  //   let code_text = event.target.value;
-  //   console.log(`old code state: ${this.state.code_text}`);
-  //   this.setState({code_text :code_text });
-  //   console.log(`new code state: ${this.state.code_text}`);
-  //   // this.setState({evaluated_code :eval(this.state.code_text) });
-  // }
 
   handleSubmit(event){
     event.preventDefault();
@@ -57,9 +48,11 @@ class App extends Component {
       <div>
         <Header />
         <h1>Hello and Lets Code :)</h1>
-        <CodeTextArea value={this.state.code} onChange={this.updateCode} evaluateCode={this.evaluateCode} handleSubmit={this.handleSubmit}/>
+        <form  onSubmit={this.handleSubmit}>
+          <CodeMirror value={this.state.code} onChange={this.updateCode} options={options} evaluateCode={this.evaluateCode}  />
+          <input type="submit" value="Evaluate Code" />
+        </form>
         <span >result =  {this.state.evaluated_code}</span>
-        <CodeMirror value={this.state.code} onChange={this.updateCode} options={options} evaluateCode={this.evaluateCode} handleSubmit={this.handleSubmit} />
         <Footer/>
       </div>
     );
