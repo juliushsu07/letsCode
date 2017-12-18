@@ -6,7 +6,7 @@ class CodeTextArea extends Component {
     // console.log(this.props)
     return (
       <form  onSubmit={this.props.handleSubmit}>
-        <textarea className="form-control" rows="5" id="code_text_area" onChange= {this.props.changeTextHandler }/>
+        <textarea className="form-control" rows="5" id="code_text_area" onChange= {this.props.updateCode }/>
         <input type="submit" value="Submit" />
       </form>
     );
