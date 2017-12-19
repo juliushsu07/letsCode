@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import CodeMirror from 'react-codemirror';
-
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import {Login} from "./Login.jsx"
+import {Signup} from "./Signup.jsx"
 
 class App extends Component {
 
@@ -46,12 +48,20 @@ class App extends Component {
     };
 
     return (
-      <div>
-      <Header />
-      <h1>Hello and Lets Code :)</h1>
-      <CodeMirror value={this.state.code} ref="cm_instance" onChange={this.updateCode} options={options} />
-      <Footer/>
-      </div>
+      <Router>
+        <div>
+          <Header />
+          <h1>Hello and Lets Code :)</h1>
+            <div>
+              <Route path="/code" render={ () => {
+                return <CodeMirror value={this.state.code} ref="cm_instance" onChange={this.updateCode} options={options} />
+              }}/>
+              <Route path="/login" component={Login} />
+              <Route path="/signup" component={Signup} />
+            </div>
+          <Footer/>
+        </div>
+      </Router>
     );
   }
 }
