@@ -56,8 +56,20 @@ class App extends Component {
 
   evaluateCode (code){
       console.log("code_text: ", code);
-      this.setState({evaluated_code :eval(code) });
+      try {
+        const evaluated_code = eval(code);
+        if (evaluated_code == undefined){
+          this.setState({evaluated_code :"undefined" });
+        } else {
+          this.setState({evaluated_code :evaluated_code });
+        }
+      } catch (e) {
+        // console.log(`error detected: ${e}`);
+        // run in case of an error
+        this.setState({evaluated_code: e.toString()});
+      }
   }
+
 
   render() {
     let options = {
