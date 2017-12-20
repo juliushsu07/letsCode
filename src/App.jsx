@@ -83,12 +83,12 @@ class App extends Component {
           <h1>Hello and Lets Code :)</h1>
 
             <div>
-              <Route path="/code" render={ () => {
+              <Route pathDefault="/code" render={ () => {
                 return (
-                   <form  onSubmit={this.handleSubmit}>
-                    <CodeMirror value={this.state.code} ref="cm_instance" onChange={this.updateCode} options={options}  evaluateCode={this.evaluateCode}  />
-                  <input type="submit" value="Evaluate Code" />
-                  <span >result =  {this.state.evaluated_code}</span>
+                  <form  onSubmit={this.handleSubmit}>
+                    <CodeMirror value={this.state.code} ref="cm_instance" onChange={this.updateCode} options={options}  evaluateCode={this.evaluateCode} />
+                    <input type="submit" value="Evaluate Code" />
+                    <span >result =  {this.state.evaluated_code}</span>
                   </form>
                 );
               }}/>
