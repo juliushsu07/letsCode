@@ -57,10 +57,19 @@ class App extends Component {
       this.setState({evaluated_code :eval(code) });
   }
 
+
   render() {
     let options = {
         lineNumbers: true
     };
+
+    window.onerror = function (msg, url, lineNo, columnNo, error) {
+     // ... handle error ...
+     let errorString = `error: ${Error.prototype}\n msg:${msg}\n url:${url} \n prototype:${Object}`;
+      console.log(errorString);
+      // this.setState({evaluated_code : errorString });
+     return false;
+    }
 
     return (
       <div>
