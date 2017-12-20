@@ -5,6 +5,11 @@ const uuidv1 = require('uuid/v1');
 // Set the port to 3001
 const PORT = 3001;
 
+let code = {
+    content: '',
+    id:''
+  }
+
 // Create a new express server
 const server = express()
   // Make the express server serve static assets (html, javascript, css) from the /public folder
@@ -27,11 +32,13 @@ wss.broadcast = function broadcast(data) {
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
+  ws.send(JSON.stringify(code));
 
   ws.on('message', (data) => {
     incomingMessage = JSON.parse(data);
     incomingMessage.id = uuidv1();
     console.log(incomingMessage)
+    code = incomingMessage
     wss.broadcast(JSON.stringify(incomingMessage));
 
   });

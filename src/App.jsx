@@ -14,8 +14,7 @@ class App extends Component {
       user : {
         name : "Anonymous"
       },
-      code : `var print = function (something) {return something;}
-              print("it works");`,
+      code : '',
       evaluated_code:"initial unevaluated CodeText"
     }; //end of set initial state Object
 
@@ -41,11 +40,7 @@ class App extends Component {
         content: newCodeContent
     }
     this.socket.send(JSON.stringify(newCode));
-
-    console.log(`old code state: ${this.state.code}`);
     this.setState({code: newCodeContent});
-    console.log(`new code state: ${this.state.code}`);
-    console.log(this.state);
   }
 
   handleSubmit(event){
@@ -71,7 +66,7 @@ class App extends Component {
           <h1>Hello and Lets Code :)</h1>
 
             <div>
-              <Route path="/code" render={ () => {
+              <Route pathDefault="/code" render={ () => {
                 return (
                    <form  onSubmit={this.handleSubmit}>
                     <CodeMirror value={this.state.code} ref="cm_instance" onChange={this.updateCode} options={options}  evaluateCode={this.evaluateCode}  />
