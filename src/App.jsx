@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
-import CodeMirror from 'react-codemirror';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import {Login} from "./Login.jsx"
 import {Signup} from "./Signup.jsx"
@@ -16,11 +15,8 @@ class App extends Component {
       },
       code : `var print = function (something) {return something;}
               print("it works");`,
-      evaluated_code:"initial unevaluated CodeText"
     }; //end of set initial state Object
 
-    this.evaluateCode = this.evaluateCode.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.updateCode = this.updateCode.bind(this);
   }
 
@@ -48,36 +44,18 @@ class App extends Component {
     console.log(this.state);
   }
 
-  handleSubmit(event){
-    event.preventDefault();
-    this.evaluateCode(this.state.code);
-    console.log("evaluted code: ", this.state.evaluated_code);
-  }
-
-  evaluateCode (code){
-      console.log("code_text: ", code);
-      this.setState({evaluated_code :eval(code) });
-  }
-
   render() {
-    let options = {
-        lineNumbers: true
-    };
 
     return (
       <Router>
         <div>
           <Header />
           <h1>Hello and Lets Code :)</h1>
-
+           <textarea value={this.state.code} className="klipse" onChange={this.updateCode} />
             <div>
               <Route path="/code" render={ () => {
                 return (
-                   <form  onSubmit={this.handleSubmit}>
-                    <CodeMirror value={this.state.code} ref="cm_instance" onChange={this.updateCode} options={options}  evaluateCode={this.evaluateCode}  />
-                  <input type="submit" value="Evaluate Code" />
-                  <span >result =  {this.state.evaluated_code}</span>
-                  </form>
+                   <textarea />
                 );
               }}/>
               <Route path="/login" component={Login} />
