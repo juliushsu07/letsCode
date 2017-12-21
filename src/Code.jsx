@@ -60,6 +60,7 @@ export class Code extends React.Component {
     };
     return (
       <div>
+        <h1>Hello and Lets Code :)</h1>
         <form  onSubmit={this.handleSubmit}>
           <CodeMirror value={this.state.code} ref="cm_instance" onChange={this.updateCode} options={options}  evaluateCode={this.evaluateCode} />
           <input type="submit" value="Evaluate Code" />
