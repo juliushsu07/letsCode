@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+// import { Modal, ModalHeader, ModalFooter, ModalBody} from 'elemental';
+import SharePopUp from "./SharePopUp.jsx"
 
-class Header extends Component {
+export default class Header extends React.Component {
+  state = { show: false }
+
   render() {
+    let close = () => this.setState({ show: false });
     return (
       <nav className="navbar navbar-inverse navbar-fixed-top">
         <div className="container-fluid">
@@ -15,6 +20,7 @@ class Header extends Component {
               <li><Link to="code">Code</Link></li>
               <li><Link to="signup">Signup</Link></li>
               <li><Link to="login">Login</Link></li>
+               <SharePopUp />
             </ul>
           </div>
         </div>
@@ -22,5 +28,5 @@ class Header extends Component {
     );
   }
 }
-export default Header;
+// export default Header;
 console.log("Rendering <Header/>");
