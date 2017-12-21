@@ -14,7 +14,7 @@ class App extends Component {
           <Header />
           <h1>Hello and Lets Code :)</h1>
             <div>
-              <Route pathDefault="/code" component={Code} />
+              <Route path="/room/:id" component={Code} />
               <Route path="/login" component={Login} />
               <Route path="/signup" component={Signup} />
             </div>

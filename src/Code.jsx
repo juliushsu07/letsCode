@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
 import CodeMirror from 'react-codemirror';
+
+function getRoomIdFromURL() {
+  console.log("in getRoomID @CODE: ", window.location.pathname);
+  return window.location.pathname;
+}
+
 export class Code extends React.Component {
 
    constructor(props) {
@@ -8,9 +14,14 @@ export class Code extends React.Component {
       user : {
         name : "Anonymous"
       },
-      code : '',
-      evaluated_code:"initial unevaluated CodeText"
-    }; //end of set initial state Object
+      message : {
+        code : '',
+        // TODO set room to this.props
+        room : getRoomIdFromURL(),
+        type : ''
+      },
+      evaluated_code : ""
+    };
 
     this.evaluateCode = this.evaluateCode.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -18,27 +29,45 @@ export class Code extends React.Component {
   }
 
   componentDidMount() {
+    const initialMsg ={
+      room: getRoomIdFromURL(),
+      type: "initialMsg"
+    }
     this.socket = new WebSocket("ws://localhost:3001/");
     this.socket.onopen = () => {
       console.log('connected to server');
+      console.log(initialMsg)
+      // send initial msg
+      this.socket.send(JSON.stringify(initialMsg));
     }
     this.socket.onmessage = () => {
-      const data = JSON.parse(event.data);
-      this.setState({code: data.content});
+      const newMessage = JSON.parse(event.data);
+      console.log("onclientrecieve", newMessage);
+
+      switch(newMessage.type) {
+        case "changeRoom":
+
+        break;
+        case "updateCode":
+          this.setState( {message: newMessage});
+          console.log(this.state.message);
+        break;
+      }
     }
   }
 
-  updateCode(newCodeContent){
-    const newCode = {
-        content: newCodeContent
+  updateCode(newCode){
+    const message = {
+        code: newCode,
+        room: this.state.message.room,
+        type: "updateCode"
     }
-    this.socket.send(JSON.stringify(newCode));
-    this.setState({code: newCodeContent});
+    this.socket.send(JSON.stringify(message));
   }
 
   handleSubmit(event){
     event.preventDefault();
-    this.evaluateCode(this.state.code);
+    this.evaluateCode(this.state.message.code);
   }
 
   evaluateCode (code){
@@ -61,7 +90,7 @@ export class Code extends React.Component {
     return (
       <div>
         <form  onSubmit={this.handleSubmit}>
-          <CodeMirror value={this.state.code} ref="cm_instance" onChange={this.updateCode} options={options}  evaluateCode={this.evaluateCode} />
+          <CodeMirror value={this.state.message.code} ref="cm_instance" onChange={this.updateCode} options={options}  evaluateCode={this.evaluateCode} />
           <input type="submit" value="Evaluate Code" />
           <span >result =  {this.state.evaluated_code}</span>
         </form>
