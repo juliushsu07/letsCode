@@ -1,48 +1,73 @@
 const express = require('express');
-const SocketServer = require('ws').Server;
-const uuidv1 = require('uuid/v1');
-
-// Set the port to 3001
+const http = require('http');
+const WebSocket = require('ws');
 const PORT = 3001;
 
-let code = {
-    content: '',
-    id:''
-  }
-
 // Create a new express server
-const server = express()
-  // Make the express server serve static assets (html, javascript, css) from the /public folder
-  .use(express.static('public'))
-  .listen(PORT, '0.0.0.0', 'localhost', () => console.log(`Listening on ${ PORT }`));
+const app = express()
 
+app.use(function(req,res) {
+  res.sendFile("index.html", {root: "../"})
+});
 
 // Create the WebSockets server
-const wss = new SocketServer({ server });
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
+
 
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
-
-wss.broadcast = function broadcast(data) {
+wss.broadcast = function broadcast(message) {
   wss.clients.forEach(function each(client) {
-    client.send(data);
+    console.log(client.room, message.room)
+    if(client.room === message.room ){
+      console.log("sending message to rooms: ", message.room);
+
+      client.send(JSON.stringify(message));
+    }
   });
 };
 
-wss.on('connection', (ws) => {
+// TODO data base
+let code = {}
+
+wss.on('connection', (client) => {
   console.log('Client connected');
-  ws.send(JSON.stringify(code));
 
-  ws.on('message', (data) => {
-    incomingMessage = JSON.parse(data);
-    incomingMessage.id = uuidv1();
-    console.log(incomingMessage)
-    code = incomingMessage
-    wss.broadcast(JSON.stringify(incomingMessage));
+  client.on('message', (message) => {
+    incomingMessage = JSON.parse(message);
+    console.log(incomingMessage);
+    // client.room = incomingMessage.room
+    switch(incomingMessage.type) {
+      case "initialMsg":
+        // set client's room on connection
+        client.room = incomingMessage.room
+        if(code[incomingMessage.room]) {
+          // TODO send message w/ all code
+          client.send(JSON.stringify({type: "updateCode",
+                                      room: incomingMessage.room,
+                                      code: code[incomingMessage.room]}))
+        } else {
+          code[incomingMessage.room] = "";
+        }
+        console.log("new Client room:", client.room);
+      break;
 
+      case "updateCode":
+        console.log("inSERVER UPDATE CASE:" ,incomingMessage);
+
+        console.log("11:",client.code, incomingMessage.code )
+        code[incomingMessage.room] = incomingMessage.code;
+        console.log(client.code);
+        wss.broadcast(incomingMessage);
+      break;
+    }
   });
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => console.log('Client disconnected'));
+  client.on('close', () => console.log('Client disconnected'));
 });
+
+
+server.listen(PORT, '0.0.0.0', 'localhost', () => console.log(`Listening on ${ PORT }`));

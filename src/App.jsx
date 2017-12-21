@@ -13,7 +13,7 @@ class App extends Component {
         <div>
           <Header />
             <div>
-              <Route path="/code" component={Code} />
+              <Route path="/room/:id" component={Code} />
               <Route path="/login" component={Login} />
               <Route path="/signup" component={Signup} />
             </div>
