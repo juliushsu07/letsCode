@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import CodeMirror from 'react-codemirror';
 
 
-function getRoomIdFromURL() {
-  console.log("in getRoomID @CODE: ", window.location.pathname);
-  return window.location.pathname;
-}
+// function getRoomIdFromURL() {
+//   console.log("in getRoomID @CODE: ", window.location.pathname);
+//   return window.location.pathname;
+// }
 
 console.log("Rendering <Code/>")
 export class Code extends React.Component {
@@ -15,7 +15,7 @@ export class Code extends React.Component {
       message : {
         code : '',
         // TODO set room to this.props
-        room : getRoomIdFromURL(),
+        room : this.props.match.url,
         type : ''
       },
       evaluated_code : ""
@@ -28,7 +28,7 @@ export class Code extends React.Component {
 
   componentDidMount() {
     const initialMsg ={
-      room: getRoomIdFromURL(),
+      room: this.props.match.url,
       type: "initialMsg"
     }
     this.socket = new WebSocket("ws://localhost:3001/");
@@ -85,7 +85,6 @@ export class Code extends React.Component {
     let options = {
       lineNumbers: true
     };
-    console.log("in Code: ", this.props);
 
     return (
       <div>

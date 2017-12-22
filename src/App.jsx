@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Switch, Router, Route, Link } from 'react-router-dom';
 import {Welcome} from './Welcome.jsx';
 import {Code} from "./Code.jsx"
 import {Login} from "./Login.jsx"
 import {Signup} from "./Signup.jsx"
 
-
 export default class App extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -20,19 +20,20 @@ export default class App extends Component {
 
   render() {
     console.log("Rendering <App/>");
+    console.log("in app: ", this.state.room)
     return (
-      <Router room = {this.state.room}>
+      <BrowserRouter >
         <div>
-          <Header />
-          <div>
+          <Route path="*" component={Header} />
+          <Switch>
             <Route path="/" exact component={Welcome} />
-            <Route path="/room/:id" exact component={Code} />
+            <Route path="/room/:id" exact component={Code}/>
             <Route path="/login" exact component={Login} />
-            <Route path="/signup" component={Signup} />
-          </div>
+            <Route path="/signup" exact component={Signup} />
+          </Switch>
           <Footer/>
         </div>
-      </Router>
+      </BrowserRouter>
     );
   }
 }
