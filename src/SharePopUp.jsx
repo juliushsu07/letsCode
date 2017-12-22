@@ -6,7 +6,7 @@ import React, {Component} from 'react';
 import { Button, FormGroup, FormControl, Modal } from 'react-bootstrap';
 
 export default class SharePopUp  extends React.Component {
-  state = { showModal: false };
+  state = { showModal: false};
 
   close = () => {
     this.setState({ showModal: false });
@@ -36,7 +36,7 @@ export default class SharePopUp  extends React.Component {
             <h4>Anyone with the url below will have access to your code share space</h4>
             <hr />
             <FormGroup bsSize="large">
-              <FormControl type="text" placeholder="https://localhost:3000/a2c4e {this.state.message.room}" />
+              <FormControl type="text" placeholder="https://localhost:3000/a2c4e {this.state.message.room}" value={this.props.match.url} />
             </FormGroup>
             <hr />
          </Modal.Body>
