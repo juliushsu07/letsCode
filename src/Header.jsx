@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import SharePopUp from "./SharePopUp.jsx"
 
-
+export default class Header extends React.Component {
+  state = { show: false }
 
 class Header extends Component {
 
@@ -15,6 +17,7 @@ class Header extends Component {
   }
 
   render() {
+    let close = () => this.setState({ show: false });
     return (
       <nav className="navbar navbar-inverse navbar-fixed-top">
         <div className="container-fluid">
@@ -23,7 +26,7 @@ class Header extends Component {
           </div>
           <div>
             <ul className="nav navbar-nav navbar-right">
-              <li><Link to="/">Share Code</Link></li>
+              <li> <SharePopUp /></li>
               <li><Link to={this.roomIdGenerator()}>Code</Link></li>
               <li><Link to="signup">Signup</Link></li>
               <li><Link to="login">Login</Link></li>
@@ -34,5 +37,5 @@ class Header extends Component {
     );
   }
 }
-export default Header;
+// export default Header;
 console.log("Rendering <Header/>");
