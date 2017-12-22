@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 export class Signup extends React.Component {
   render() {
+    console.log("Rendering <Signup/>");
+
+
     return (
       <div className="col-md-4 col-md-offset-7">
             <div className="panel panel-default">
