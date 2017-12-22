@@ -2,10 +2,7 @@ import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import SharePopUp from "./SharePopUp.jsx"
 
-export default class Header extends React.Component {
-  state = { show: false }
-
-class Header extends Component {
+export default class Header  extends React.Component {
 
   roomIdGenerator() {
     let text = "";
@@ -17,7 +14,7 @@ class Header extends Component {
   }
 
   render() {
-    let close = () => this.setState({ show: false });
+
     return (
       <nav className="navbar navbar-inverse navbar-fixed-top">
         <div className="container-fluid">
@@ -37,5 +34,5 @@ class Header extends Component {
     );
   }
 }
-// export default Header;
+
 console.log("Rendering <Header/>");
