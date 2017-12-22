@@ -44,7 +44,6 @@ wss.on('connection', (client) => {
         // set client's room on connection
         client.room = incomingMessage.room
         if(code[incomingMessage.room]) {
-          // TODO send message w/ all code
           client.send(JSON.stringify({type: "updateCode",
                                       room: incomingMessage.room,
                                       code: code[incomingMessage.room]}))

@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 
-class Footer extends Component {
+export default class Footer extends Component {
 
   render() {
+    console.log("Rendering <Footer/>");
+
     return (
      <nav className="  navbar-default navbar-fixed-bottom">
         <div className="container-fluid">
@@ -19,5 +21,4 @@ class Footer extends Component {
     );
   }
 }
-export default Footer;
-console.log("Rendering <Footer/>");
+

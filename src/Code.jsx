@@ -1,19 +1,17 @@
 import React, {Component} from 'react';
 import CodeMirror from 'react-codemirror';
 
+
 function getRoomIdFromURL() {
   console.log("in getRoomID @CODE: ", window.location.pathname);
   return window.location.pathname;
 }
 
+console.log("Rendering <Code/>")
 export class Code extends React.Component {
-
    constructor(props) {
     super(props);
     this.state = {
-      user : {
-        name : "Anonymous"
-      },
       message : {
         code : '',
         // TODO set room to this.props
@@ -87,6 +85,8 @@ export class Code extends React.Component {
     let options = {
       lineNumbers: true
     };
+    console.log("in Code: ", this.props);
+
     return (
       <div>
         <h1>Hello and Lets Code :)</h1>
