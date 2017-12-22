@@ -16,11 +16,10 @@ export default class Header extends React.Component {
           </div>
           <div>
             <ul className="nav navbar-nav navbar-right">
-              <li><Link to="/">Share Code</Link></li>
+               <li> <SharePopUp /></li>
               <li><Link to="code">Code</Link></li>
               <li><Link to="signup">Signup</Link></li>
               <li><Link to="login">Login</Link></li>
-               <SharePopUp />
             </ul>
           </div>
         </div>

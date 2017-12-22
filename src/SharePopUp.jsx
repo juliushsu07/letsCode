@@ -1,8 +1,9 @@
+// This component is a modal that popps up when you click the share button
+// on the main menu. It takes in props of the curren url and presents it
+// to the user so they can coppy it and share with next user.
+
 import React, {Component} from 'react';
-import { Button, Popover, Tooltip, Modal } from 'react-bootstrap';
-import ReactDOM from 'react-dom';
-// import mountNode from 'react-bootstrap';
-import createReactClass from 'create-react-class';
+import { Button, FormGroup, FormControl, Modal } from 'react-bootstrap';
 
 export default class SharePopUp  extends React.Component {
   state = { showModal: false };
@@ -20,27 +21,25 @@ export default class SharePopUp  extends React.Component {
       <div>
         <Button
           bsStyle="primary"
-          bsSize="large"
+          bsSize="small"
           onClick={this.open}
+          className="bsClass"
         >
-          Launch demo modal
+          Share Code
         </Button>
 
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>Share Code</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h4>Text in a modal</h4>
-            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
-
+            <h4>Anyone with the url below will have access to your code share space</h4>
             <hr />
-
-            <h4>Overflowing text to show scroll behavior</h4>
-            <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-            <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-          </Modal.Body>
+            <FormGroup bsSize="large">
+              <FormControl type="text" placeholder="https://localhost:3000/a2c4e {this.state.message.room}" />
+            </FormGroup>
+            <hr />
+         </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.close}>Close</Button>
           </Modal.Footer>
@@ -49,8 +48,3 @@ export default class SharePopUp  extends React.Component {
     );
   }
 }
-
-
-// const mountNode = document.getElementById('');
-
-// ReactDOM.render(<SharePopUp />, mountNode);
