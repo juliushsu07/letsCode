@@ -1,13 +1,22 @@
 import React, {Component} from 'react';
 import CodeMirror from 'react-codemirror';
+import SimpleWebRTC from 'simplewebrtc';
 
 
-// function getRoomIdFromURL() {
-//   console.log("in getRoomID @CODE: ", window.location.pathname);
-//   return window.location.pathname;
-// }
+var webrtc = new SimpleWebRTC({
+    // the id/element dom element that will hold "our" video
+    localVideoEl: 'localVideo',
+    // the id/element dom element that will hold remote videos
+    remoteVideosEl: 'remoteVideos',
+    // immediately ask for camera access
+    autoRequestMedia: true
+});
 
-console.log("Rendering <Code/>")
+webrtc.on('readyToCall', function () {
+    // you can name it anything
+    webrtc.joinRoom('your awesome room name');
+});
+
 export class Code extends React.Component {
    constructor(props) {
     super(props);
@@ -54,6 +63,15 @@ export class Code extends React.Component {
     }
   }
 
+  componentWillMount () {
+        const script = document.createElement("script");
+
+        script.src = "https://simplewebrtc.com/latest-v2.js";
+        script.async = true;
+
+        document.body.appendChild(script);
+    }
+
   updateCode(newCode){
     const message = {
         code: newCode,
@@ -82,6 +100,8 @@ export class Code extends React.Component {
   }
 
   render() {
+    console.log("Rendering <Code/>");
+
     let options = {
       lineNumbers: true
     };
@@ -94,6 +114,8 @@ export class Code extends React.Component {
           <input type="submit" value="Evaluate Code" />
           <span >result =  {this.state.evaluated_code}</span>
         </form>
+        <video id="localVideo"></video>
+        <div id="remoteVideos"></div>
       </div>
     );
   }
