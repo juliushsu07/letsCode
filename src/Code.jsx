@@ -3,20 +3,6 @@ import CodeMirror from 'react-codemirror';
 import SimpleWebRTC from 'simplewebrtc';
 
 
-var webrtc = new SimpleWebRTC({
-    // the id/element dom element that will hold "our" video
-    localVideoEl: 'localVideo',
-    // the id/element dom element that will hold remote videos
-    remoteVideosEl: 'remoteVideos',
-    // immediately ask for camera access
-    autoRequestMedia: true
-});
-
-webrtc.on('readyToCall', function () {
-    // you can name it anything
-    webrtc.joinRoom('your awesome room name');
-});
-
 export class Code extends React.Component {
    constructor(props) {
     super(props);
@@ -36,21 +22,36 @@ export class Code extends React.Component {
   }
 
   componentDidMount() {
+    const room = this.state.message.room;
+
+    // Initialize webrtc
+    const webrtc = new SimpleWebRTC({
+      // the id/element dom element that will hold "our" video
+      localVideoEl: 'localVideo',
+      // the id/element dom element that will hold remote videos
+      remoteVideosEl: 'remoteVideos',
+      // immediately ask for camera access
+      autoRequestMedia: true
+    })
+
+    webrtc.on('readyToCall', function () {
+        // you can name it anything
+        webrtc.joinRoom(room);
+    });
+
     const initialMsg ={
-      room: this.props.match.url,
+      room: room,
       type: "initialMsg"
     }
+
     this.socket = new WebSocket("ws://localhost:3001/");
     this.socket.onopen = () => {
       console.log('connected to server');
-      console.log(initialMsg)
       // send initial msg
       this.socket.send(JSON.stringify(initialMsg));
     }
     this.socket.onmessage = () => {
       const newMessage = JSON.parse(event.data);
-      console.log("onclientrecieve", newMessage);
-
       switch(newMessage.type) {
         case "changeRoom":
 
