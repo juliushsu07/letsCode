@@ -3,9 +3,9 @@ import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import { BrowserRouter, Switch, Router, Route, Link } from 'react-router-dom';
 import {Welcome} from './Welcome.jsx';
-import {Code} from "./Code.jsx"
-import {Login} from "./Login.jsx"
-import {Signup} from "./Signup.jsx"
+import {Code} from './Code.jsx';
+import {Login} from './Login.jsx';
+import {Signup} from './Signup.jsx';
 
 export default class App extends Component {
 
@@ -20,7 +20,6 @@ export default class App extends Component {
 
   render() {
     console.log("Rendering <App/>");
-    console.log("in app: ", this.state.room)
     return (
       <BrowserRouter >
         <div>

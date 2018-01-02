@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import CodeMirror from 'react-codemirror';
-import SimpleWebRTC from 'simplewebrtc';
+import Video from './Video.jsx';
 
 
-export class Code extends React.Component {
+export class Code extends Component {
    constructor(props) {
     super(props);
     this.state = {
@@ -22,25 +22,8 @@ export class Code extends React.Component {
   }
 
   componentDidMount() {
-    const room = this.state.message.room;
-
-    // Initialize webrtc
-    const webrtc = new SimpleWebRTC({
-      // the id/element dom element that will hold "our" video
-      localVideoEl: 'localVideo',
-      // the id/element dom element that will hold remote videos
-      remoteVideosEl: 'remoteVideos',
-      // immediately ask for camera access
-      autoRequestMedia: true
-    })
-
-    webrtc.on('readyToCall', function () {
-        // you can name it anything
-        webrtc.joinRoom(room);
-    });
-
     const initialMsg ={
-      room: room,
+      room: this.state.message.room,
       type: "initialMsg"
     }
 
@@ -63,15 +46,6 @@ export class Code extends React.Component {
       }
     }
   }
-
-  componentWillMount () {
-        const script = document.createElement("script");
-
-        script.src = "https://simplewebrtc.com/latest-v2.js";
-        script.async = true;
-
-        document.body.appendChild(script);
-    }
 
   updateCode(newCode){
     const message = {
@@ -115,8 +89,7 @@ export class Code extends React.Component {
           <input type="submit" value="Evaluate Code" />
           <span >result =  {this.state.evaluated_code}</span>
         </form>
-        <video id="localVideo"></video>
-        <div id="remoteVideos"></div>
+        <Video room = {this.state.message.room} />
       </div>
     );
   }

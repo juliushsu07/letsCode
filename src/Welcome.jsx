@@ -15,7 +15,7 @@ export class Welcome extends Component {
     console.log("Rendering <Code/>");
     return(
       <div>
-          <h1><Link to={roomIdGenerator()}>Code</Link></h1>
+        <h1><Link to={roomIdGenerator()}>Code</Link></h1>
       </div>
     );
   }
