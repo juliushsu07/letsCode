@@ -6,6 +6,7 @@ import {Welcome} from './Welcome.jsx';
 import {Code} from "./Code.jsx"
 import {Login} from "./Login.jsx"
 import {Signup} from "./Signup.jsx"
+import {CodeEditor} from "./CodeEditor.jsx"
 
 export default class App extends Component {
 
