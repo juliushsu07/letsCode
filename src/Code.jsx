@@ -3,7 +3,15 @@ import CodeMirror from 'react-codemirror';
 import Video from './Video.jsx';
 
 
-export class Code extends Component {
+const isBrowser = typeof window !== 'undefined';
+isBrowser ? function(){
+  require('codemirror/mode/javascript/javascript');
+  require('codemirror/addon/lint/lint');
+  require('codemirror/addon/lint/javascript-lint');
+}() : undefined;
+
+
+export class Code extends React.Component {
    constructor(props) {
     super(props);
     this.state = {
@@ -11,7 +19,8 @@ export class Code extends Component {
         code : '',
         // TODO set room to this.props
         room : this.props.match.url,
-        type : ''
+        type : '',
+        mode : 'javascript'
       },
       evaluated_code : ""
     };
@@ -53,6 +62,9 @@ export class Code extends Component {
         room: this.state.message.room,
         type: "updateCode"
     }
+    this.setState({
+      code: newCode
+    });
     this.socket.send(JSON.stringify(message));
   }
 
@@ -78,16 +90,24 @@ export class Code extends Component {
     console.log("Rendering <Code/>");
 
     let options = {
-      lineNumbers: true
+      lineNumbers: true,
+      mode: 'javascript',
+      lineWrapping: true,
+      lint: true,
+      gutters: [
+        'CodeMirror-lint-markers',
+      ]
     };
 
     return (
       <div>
         <h1>Hello and Lets Code :)</h1>
         <form  onSubmit={this.handleSubmit}>
-          <CodeMirror value={this.state.message.code} ref="cm_instance" onChange={this.updateCode} options={options}  evaluateCode={this.evaluateCode} />
-          <input type="submit" value="Evaluate Code" />
-          <span >result =  {this.state.evaluated_code}</span>
+          <input type="submit" value="Run" />
+          <CodeMirror value={this.state.message.code} ref="editor" onChange={this.updateCode} options={options}  evaluateCode={this.evaluateCode}  autoFocus={true}/>
+          <span >
+            <small style={{color: "blue",fontSize: "15px"}}>Output</small><br/>{JSON.stringify(this.state.evaluated_code)}
+          </span>
         </form>
         <Video room = {this.state.message.room} />
       </div>

@@ -8,11 +8,12 @@ export default class Header  extends React.Component {
     console.log("Rendering <Header/>");
 
     let links;
-    console.log()
-    if (this.props.match.url.indexOf("/room") >= 0) {
+    const roomURL = this.props.match.url
+
+    if (roomURL.indexOf("/room") >= 0) {
       links = (
         <ul className="nav navbar-nav navbar-right">
-          <li> <SharePopUp /></li>
+          <li> <SharePopUp roomURL = {roomURL}/></li>
           <li><Link to="/signup">Signup</Link></li>
           <li><Link to="/login">Login</Link></li>
         </ul>

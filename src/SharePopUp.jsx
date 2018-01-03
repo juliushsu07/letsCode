@@ -5,8 +5,16 @@
 import React, {Component} from 'react';
 import { Button, FormGroup, FormControl, Modal } from 'react-bootstrap';
 
+
+
 export default class SharePopUp  extends React.Component {
-  state = { showModal: false };
+  constructor(props){
+    super(props);
+    this.onNothingChange = this.onNothingChange.bind(this);
+  }
+
+
+  state = { showModal: false};
 
   close = () => {
     this.setState({ showModal: false });
@@ -16,7 +24,12 @@ export default class SharePopUp  extends React.Component {
     this.setState({ showModal: true });
   }
 
+  onNothingChange(){
+    // do nothing lol
+  }
+
   render() {
+    const url = `http://localhost:3001${this.props.roomURL}`
     return (
       <div>
         <Button
@@ -36,7 +49,7 @@ export default class SharePopUp  extends React.Component {
             <h4>Anyone with the url below will have access to your code share space</h4>
             <hr />
             <FormGroup bsSize="large">
-              <FormControl type="text" placeholder="https://localhost:3000/a2c4e {this.state.message.room}" />
+              <FormControl type="text" placeholder="https://localhost:3000/a2c4e {this.state.message.room}" value= {url} onChange = {this.onNothingChange} />
             </FormGroup>
             <hr />
          </Modal.Body>
