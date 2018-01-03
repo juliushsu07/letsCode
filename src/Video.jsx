@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import SimpleWebRTC from 'simplewebrtc';
+import appendReactDOM from 'append-react-dom';
+
 
 
 export default class Video extends React.Component {
@@ -17,26 +19,35 @@ export default class Video extends React.Component {
     this.startVideo = this.startVideo.bind(this);
     this.endVideo = this.endVideo.bind(this);
   }
-
+  ComponentDidMount () {
+    this.state.webrtc.joinRoom(this.state.room);
+  }
   componentWillMount () {
     const script = document.createElement("script");
+
     script.src = "https://simplewebrtc.com/latest-v2.js";
     script.async = true;
     document.body.appendChild(script);
   }
 
   startVideo(event){
-    this.state.webrtc.joinRoom(this.state.room);
+    console.log(this.state.webrtc);
     this.state.webrtc.startLocalVideo();
+    this.state.webrtc.resume()
+    document.getElementById("localVideo").style.display = 'block';
+    document.getElementById("remoteVideos").style.display = 'block';
   }
 
   endVideo(event){
     this.state.webrtc.stopLocalVideo();
-    this.state.webrtc.mute();
+    this.state.webrtc.pause();
+    document.getElementById("localVideo").style.display = 'none';
+    document.getElementById("remoteVideos").style.display = 'none';
   }
 
   render() {
     console.log("Rendering <Video/>");
+
 
     return (
       <div>
