@@ -14,7 +14,7 @@ export class Code extends React.Component {
     super(props);
     this.state = {
       message : {
-        code : '',
+        code : this.props.code,
         // TODO set room to this.props
         room : this.props.match.url,
         type : '',
@@ -40,8 +40,8 @@ export class Code extends React.Component {
       // send initial msg
       this.socket.send(JSON.stringify(initialMsg));
     }
-    this.socket.onmessage = () => {
-      const newMessage = JSON.parse(event.data);
+    this.socket.onmessage = (t) => {
+      const newMessage = JSON.parse(t.data);
       console.log("onclientrecieve", newMessage);
 
       switch(newMessage.type) {
@@ -76,7 +76,7 @@ export class Code extends React.Component {
   evaluateCode (code){
       try {
         const evaluated_code = eval(code);
-        if (evaluated_code == undefined){
+        if (evaluated_code === undefined){
           this.setState({evaluated_code :"undefined" });
         } else {
           this.setState({evaluated_code :evaluated_code });

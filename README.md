@@ -1,45 +1,58 @@
 letsCode
 =====================
 
-A minimal and light dev environment for ReactJS.
-
-### Usage
-
-Clone the boilerplate and create your own git repo.
-
-```
-git clone git@github.com:lovemorejokonya/letsCode.git
-cd letsCode
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
-
-Install the dependencies and start the server.
-
-```
-npm install
-npm start
-open http://localhost:3000
-```
-
-### Static Files
-
-You can store static files like images, fonts, etc in the `build` folder.
-
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
-
-### Linting
-
-This boilerplate project includes React ESLint configuration.
-
-```
-npm run lint
-```
+A minimal and light dev environment for ReactJS and Node
 
 ### Dependencies
 
 * React
-* Webpack
-* [babel-loader](https://github.com/babel/babel-loader)
-* [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+
+
+## Locally
+
+To run the app locally run:
+
+```
+git clone git@github.com:lovemorejokonya/letsCode.git
+cd letsCode
+npm install
+npm start
+```
+
+or if you use [`yarn`](https://yarnpkg.com):
+
+```
+git clone git@github.com:lovemorejokonya/letsCode.git
+cd node-knockout-react-node-starter
+yarn install
+yarn start
+```
+
+```
+"engines": {
+  "node": "8.9.1",
+  "yarn": "1.3.2",
+  "npm": "5.5.1"
+}
+```
+
+## Heroku
+
+To deploy on heroku:
+
+```
+$ heroku create
+$ git push heroku master
+```
+# Node Knockout React / Node starter
+
+bootstrapped from a starter repo that pairs a Node service with a React frontend using
+[`create-react-app`](https://github.com/facebookincubator/create-react-app)
+configured to deploy easily to Heroku.
+
+## create-react-app Guide
+
+This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+
+Below you will find some information on how to perform common tasks.<br>
+You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).

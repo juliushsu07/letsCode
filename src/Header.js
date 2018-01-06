@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import SharePopUp from "./SharePopUp.jsx"
+import SharePopUp from "./SharePopUp.js"
 
 
 export default class Header  extends React.Component {

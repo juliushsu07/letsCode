@@ -1,23 +1,23 @@
 const express = require('express');
+const helmet = require('helmet');
+const expressEnforcesSSL = require('express-enforces-ssl');
+const PORT = process.env.PORT || 3001;
 const http = require('http');
-const WebSocket = require('ws');
-const PORT = 3001;
+const WebSocket = require('ws').Server;
 
-// Create a new express server
-const app = express()
+const app = express();
 
-app.use(function(req,res) {
-  res.sendFile("index.html", {root: "../"})
-});
+// Initialize an express app with some security defaults
+app
+  .use(https)
+  .use(helmet());
 
 // Create the WebSockets server
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket({ server });
 
+let code = {}
 
-// Set up a callback that will run when a client connects to the server
-// When a client connects they are assigned a socket, represented by
-// the ws parameter in the callback.
 wss.broadcast = function broadcast(message) {
   wss.clients.forEach(function each(client) {
     console.log(client.room, message.room)
@@ -28,9 +28,6 @@ wss.broadcast = function broadcast(message) {
     }
   });
 };
-
-// TODO data base
-let code = {}
 
 wss.on('connection', (client) => {
   console.log('Client connected');
@@ -64,9 +61,47 @@ wss.on('connection', (client) => {
     }
   });
 
-  // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   client.on('close', () => console.log('Client disconnected'));
 });
 
+// Application-specific routes
+// Add your own routes here!
+// app.get('/example-route', function (req, res, next) {
+//   res.json({ message:'Hello World!' });
+// });
 
-server.listen(PORT, '0.0.0.0', 'localhost', () => console.log(`Listening on ${ PORT }`));
+// Serve static assets built by create-react-app
+app.use(express.static('build'));
+
+// If no explicit matches were found, serve index.html
+app.get('*', function(req, res){
+  res.sendFile(__dirname + '/build/index.html');
+});
+
+app
+  .use(notfound)
+  .use(errors);
+
+function https(req, res, next) {
+  if (process.env.NODE_ENV === 'production') {
+    const proto = req.headers['x-forwarded-proto'];
+    if (proto === 'https' || proto === undefined) {
+      return next();
+    }
+    return res.redirect(301, `https://${req.get('Host')}${req.originalUrl}`);
+  } else {
+    return next();
+  }
+}
+
+function notfound(req, res, next) {
+  res.status(404).send('Not Found');
+}
+
+function errors(err, req, res, next) {
+  console.log(err);
+  res.status(500).send('something went wrong');
+}
+
+// app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+server.listen(PORT, () => console.log(`Listening on ${PORT}`));
