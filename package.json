@@ -12,7 +12,8 @@
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
-    "ws": "3.3.2"
+    "ws": "3.3.2",
+    "dotenv": "^4.0.0"
   },
   "devDependencies": {
     "concurrently": "^3.5.0"
