@@ -36,8 +36,7 @@ export class Code extends React.Component {
       room: this.props.match.url,
       type: "initialMsg"
     }
-    // const URL = "ws://localhost:3001";
-    const url = `wss://0.0.0.0:${PORT}`;
+    const url = `ws://letscode-lj.herokuapp.com:${PORT}`;
     // console.log(`url:${url}`);
     this.socket = new WebSocket(url);
     this.socket.onopen = () => {
