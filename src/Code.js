@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import CodeMirror from 'react-codemirror';
-
 require('dotenv').config();
+const PORT = process.env.PORT || 3001;
+
 
 const isBrowser = typeof window !== 'undefined';
 isBrowser ? function(){
@@ -35,8 +36,9 @@ export class Code extends React.Component {
       room: this.props.match.url,
       type: "initialMsg"
     }
-    const url = `ws://letscode-lj.herokuapp.com${process.env.PORT}`;
-    console.log(`url:${url}`);
+    // const URL = "ws://localhost:3001";
+    const url = `ws://0.0.0.0:${PORT}`;
+    // console.log(`url:${url}`);
     this.socket = new WebSocket(url);
     this.socket.onopen = () => {
       console.log('connected to server');
