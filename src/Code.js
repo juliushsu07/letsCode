@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import CodeMirror from 'react-codemirror';
 import { Button } from 'react-bootstrap';
 require('dotenv').config();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 
 const isBrowser = typeof window !== 'undefined';
@@ -37,7 +37,7 @@ export class Code extends React.Component {
       room: this.props.match.url,
       type: "initialMsg"
     }
-    const url = `ws://${window.location.hostname}:${PORT}`;
+    const url = `wss://${window.location.hostname}:${PORT}`;
     console.log(`url:${url}`);
     this.socket = new WebSocket(url);
     this.socket.onopen = () => {
