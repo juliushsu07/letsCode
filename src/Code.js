@@ -37,7 +37,7 @@ export class Code extends React.Component {
       room: this.props.match.url,
       type: "initialMsg"
     }
-    const url = `ws://localhost:${PORT}`;
+    const url = `ws://${window.location.hostname}:${PORT}`;
     console.log(`url:${url}`);
     this.socket = new WebSocket(url);
     this.socket.onopen = () => {

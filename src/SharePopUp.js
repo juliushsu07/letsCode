@@ -29,7 +29,7 @@ export default class SharePopUp  extends React.Component {
   }
 
   render() {
-    const url = `http://localhost:3000${this.props.roomURL}`
+    const url = `${window.location}`
     return (
       <div>
         <Button
