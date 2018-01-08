@@ -32,13 +32,8 @@
   },
   "proxy": {
     "/socket": {
-      // Your compatible WebSocket server
       "target": "wss://letscode-lj.herokuapp.com:3001",
-      // Tell http-proxy-middleware that this is a WebSocket proxy.
-      // Also allows you to proxy WebSocket requests without an additional HTTP request
-      // https://github.com/chimurai/http-proxy-middleware#external-websocket-upgrade
       "wss": true
-      // ...
     }
   }
 }
