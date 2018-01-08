@@ -1,1 +1,1 @@
-web: node index.js 3001
+web: node index.js
