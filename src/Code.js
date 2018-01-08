@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import CodeMirror from 'react-codemirror';
 import { Button } from 'react-bootstrap';
 require('dotenv').config();
-const PORT = process.env.PORT || 23201;
+const PORT = process.env.PORT || 3001;
 
 
 const isBrowser = typeof window !== 'undefined';
