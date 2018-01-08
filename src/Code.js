@@ -39,7 +39,7 @@ export class Code extends React.Component {
       room: this.props.match.url,
       type: "initialMsg"
     }
-    const url = `ws://${window.location.hostname}:${PORT}`;
+    const url = `wss://${window.location.hostname}:${PORT}`;
     console.log(process);
     console.log(`url:${url}`);
     this.socket = new WebSocket(url);
