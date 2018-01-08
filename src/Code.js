@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import Video from './Video.jsx';
 
 require('dotenv').config();
-const PORT = process.env.NODE_ENV || 3001;
+const PORT = process.env.PUBLIC_URL || 3001;
 
 
 const isBrowser = typeof window !== 'undefined';
