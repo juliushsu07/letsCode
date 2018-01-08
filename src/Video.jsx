@@ -9,6 +9,7 @@ const webrtc = new SimpleWebRTC({
         remoteVideosEl: 'remoteVideos'
         // immediately ask for camera access
       });
+console.log(webrtc);
 
 export default class Video extends React.Component {
   constructor(props) {
@@ -20,6 +21,7 @@ export default class Video extends React.Component {
     this.endVideo = this.endVideo.bind(this);
   }
   ComponentDidMount () {
+
   }
   componentWillMount () {
     const script = document.createElement("script");
@@ -30,19 +32,23 @@ export default class Video extends React.Component {
   }
 
   startVideo(event){
-    webrtc.joinRoom(this.state.room);
-    console.log(this.state.webrtc);
+    // document.getElementById("localVideo").style.display = 'block';
+    // document.getElementById("remoteVideos").style.display = 'block';
+        console.log(this.state.room)
+    webrtc.joinRoom(this.state.room , this.state.room);
+
     webrtc.startLocalVideo();
-    webrtc.resume()
-    document.getElementById("localVideo").style.display = 'block';
-    document.getElementById("remoteVideos").style.display = 'block';
+
+    // webrtc.resume()
   }
 
   endVideo(event){
+    webrtc.leaveRoom(this.state.room);
     webrtc.stopLocalVideo();
-    webrtc.pause();
-    document.getElementById("localVideo").style.display = 'none';
-    document.getElementById("remoteVideos").style.display = 'none';
+
+    // webrtc.pause();
+    // document.getElementById("localVideo").style.display = 'none';
+    // document.getElementById("remoteVideos").style.display = 'none';
   }
 
   render() {
