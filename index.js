@@ -85,10 +85,10 @@ app
 function https(req, res, next) {
   if (process.env.NODE_ENV === 'production') {
     const proto = req.headers['x-forwarded-proto'];
-    if (proto === 'http' || proto === undefined) {
+    if (proto === 'https' || proto === undefined) {
       return next();
     }
-    return res.redirect(301, `http://${req.get('Host')}${req.originalUrl}`);
+    return res.redirect(301, `https://${req.get('Host')}${req.originalUrl}`);
   } else {
     return next();
   }
