@@ -1,7 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const expressEnforcesSSL = require('express-enforces-ssl');
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 const http = require('http');
 const WebSocket = require('ws').Server;
 
@@ -104,4 +104,4 @@ function errors(err, req, res, next) {
 }
 
 // app.listen(PORT, () => console.log(`Listening on ${PORT}`));
-server.listen(PORT, () => console.log(`Listening on ${PORT}`));
+server.listen(PORT, () => console.log(`index is Listening on ${PORT}`));
