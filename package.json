@@ -19,7 +19,7 @@
     "concurrently": "^3.5.0"
   },
   "scripts": {
-    "start": "concurrently \"react-scripts start\" \"node index\"",
+    "start": "concurrently \"react-scripts start\"  \"PORT=process.env.PORT next\"  \"node index\"",
     "heroku-postbuild": "react-scripts build",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
