@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import CodeMirror from 'react-codemirror';
 import { Button } from 'react-bootstrap';
+import Video from './Video.jsx';
+
 require('dotenv').config();
 const PORT = process.env.PORT || 3001;
 
@@ -37,18 +39,16 @@ export class Code extends React.Component {
       room: this.props.match.url,
       type: "initialMsg"
     }
-    const url = `wss://${window.location.hostname}:${PORT}`;
+    const url = `ws://${window.location.hostname}:${PORT}`;
     console.log(`url:${url}`);
     this.socket = new WebSocket(url);
     this.socket.onopen = () => {
       console.log('connected to server');
-      console.log(initialMsg)
       // send initial msg
       this.socket.send(JSON.stringify(initialMsg));
     }
     this.socket.onmessage = (t) => {
       const newMessage = JSON.parse(t.data);
-      console.log("onclientrecieve", newMessage);
 
       switch(newMessage.type) {
         case "changeRoom":
@@ -56,7 +56,6 @@ export class Code extends React.Component {
         break;
         case "updateCode":
           this.setState( {message: newMessage});
-          console.log(this.state.message);
         break;
       }
     }
@@ -117,6 +116,7 @@ export class Code extends React.Component {
             </span>
           </span>
         </form>
+         <Video room = {this.state.message.room} />
       </div>
     );
   }
