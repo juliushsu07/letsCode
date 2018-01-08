@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import Video from './Video.jsx';
 
 require('dotenv').config();
-const PORT = process.env.PORT ;
+const PORT = process.env.NODE_ENV || 3001;
 
 
 const isBrowser = typeof window !== 'undefined';
@@ -39,7 +39,7 @@ export class Code extends React.Component {
       room: this.props.match.url,
       type: "initialMsg"
     }
-    const url = `wss://${window.location.hostname}:${PORT}`;
+    const url = `ws://${window.location.hostname}:${PORT}`;
     console.log(`url:${url}`);
     this.socket = new WebSocket(url);
     this.socket.onopen = () => {
