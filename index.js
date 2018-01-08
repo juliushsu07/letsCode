@@ -1,7 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const expressEnforcesSSL = require('express-enforces-ssl');
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 const http = require('http');
 const WebSocket = require('ws').Server;
 
