@@ -32,8 +32,8 @@
   },
   "proxy": {
     "/socket": {
-      "target": "wss://letscode-lj.herokuapp.com:3001",
-      "wss": true
+      "target": "ws://letscode-lj.herokuapp.com:3001",
+      "wss": false
     }
   }
 }
