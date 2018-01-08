@@ -82,17 +82,17 @@ app
   .use(notfound)
   .use(errors);
 
-// function https(req, res, next) {
-//   if (process.env.NODE_ENV === 'production') {
-//     const proto = req.headers['x-forwarded-proto'];
-//     if (proto === 'https' || proto === undefined) {
-//       return next();
-//     }
-//     return res.redirect(301, `https://${req.get('Host')}${req.originalUrl}`);
-//   } else {
-//     return next();
-//   }
-// }
+function https(req, res, next) {
+  if (process.env.NODE_ENV === 'production') {
+    const proto = req.headers['x-forwarded-proto'];
+    if (proto === 'https' || proto === undefined) {
+      return next();
+    }
+    return res.redirect(301, `https://${req.get('Host')}${req.originalUrl}`);
+  } else {
+    return next();
+  }
+}
 
 function notfound(req, res, next) {
   res.status(404).send('Not Found');

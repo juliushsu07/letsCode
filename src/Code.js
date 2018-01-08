@@ -38,7 +38,7 @@ export class Code extends React.Component {
       type: "initialMsg"
     }
     const url = `ws://localhost:${PORT}`;
-    // console.log(`url:${url}`);
+    console.log(`url:${url}`);
     this.socket = new WebSocket(url);
     this.socket.onopen = () => {
       console.log('connected to server');
