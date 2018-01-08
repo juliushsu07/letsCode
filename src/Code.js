@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import CodeMirror from 'react-codemirror';
+import { Button } from 'react-bootstrap';
 require('dotenv').config();
 const PORT = process.env.PORT || 3001;
 
@@ -104,12 +105,16 @@ export class Code extends React.Component {
 
     return (
       <div>
-        <h1>Hello and Lets Code :)</h1>
+
         <form  onSubmit={this.handleSubmit}>
-          <input type="submit" value="Run" />
+          <Button type="submit">  Run ...  </Button>
           <CodeMirror value={this.state.message.code} ref="editor" onChange={this.updateCode} options={options}  evaluateCode={this.evaluateCode}  autoFocus={true}/>
           <span >
-            <small style={{color: "blue",fontSize: "15px"}}>Output</small><br/>{JSON.stringify(this.state.evaluated_code)}
+            <small style={{color: "tomato",fontSize: "15px"}}>Output</small>
+            <br/>
+            <span style={{color: "white",fontSize: "15px"}}>
+            {JSON.stringify(this.state.evaluated_code)}
+            </span>
           </span>
         </form>
       </div>

@@ -8,7 +8,7 @@ h1 {
   color: tomato;
 }
 body {
-      background: white;
+      background: #30353e;
       color: black;
       font-family: 'Open Sans', sans-serif;
       font-size: 14px;
@@ -27,6 +27,12 @@ body {
   color: #9d9d9d;
   border: 0px;
 }
+
+.bsStyle {
+  background: #30353e;
+  color: #9d9d9d;
+}
+
 @import "../node_modules/codemirror/lib/codemirror.css";
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css");
