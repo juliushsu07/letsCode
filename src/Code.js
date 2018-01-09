@@ -26,7 +26,7 @@ export class Code extends React.Component {
         mode : 'javascript'
       },
       evaluated_code : "",
-      port: 3001
+      port: ""
     };
 
     this.evaluateCode = this.evaluateCode.bind(this)
@@ -34,7 +34,7 @@ export class Code extends React.Component {
     this.updateCode = this.updateCode.bind(this);
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
       const data =  await fetch('/get-port');
       const json =  await data.json();
       this.setState(json);
