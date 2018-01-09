@@ -29,11 +29,10 @@ export default class Video extends React.Component {
     console.log("webrtc component mounted");
     this.webrtc.on('readyToCall', this.readyToCall);
     this.webrtc.on('videoAdded', this.addVideo);
-    this.webrtc.on('videoRemoved', this.removeVideo);
+    this.webrtc.on('leftRoom', this.removeVideo);
   }
 
   startAllVideo(){
-    // this.webrtc.joinRoom(this.state.room);
     if(!this.state.videoStarted){
       this.webrtc.startLocalVideo();
       this.setState({videoStarted : true});
@@ -41,28 +40,21 @@ export default class Video extends React.Component {
     this.webrtc.resume();
   }
   stopAllVideo(){
-    // this.webrtc.leaveRoom(this.state.room);
-    // this.webrtc.stopLocalVideo();
     this.webrtc.pause();
-
   }
 
 
   addVideo(video, peer) {
     console.log('video added', peer);
-    //  console.log(this.refs.remotes);
     var remotes = ReactDOM.findDOMNode(this.refs.remotes);
-    console.log("inaddvideo: ",remotes);
     if (remotes) {
       var container = document.createElement('div');
       container.className = 'videoContainer';
       container.id = 'container_' + this.webrtc.getDomId(peer);
       container.appendChild(video);
-      // suppress contextmenu
       video.oncontextmenu = function() {
         return false;
       };
-      console.log(container);
       remotes.appendChild(container);
     }
   }
