@@ -25,7 +25,8 @@ export class Code extends React.Component {
         type : '',
         mode : 'javascript'
       },
-      evaluated_code : ""
+      evaluated_code : "",
+      port: 3001
     };
 
     this.evaluateCode = this.evaluateCode.bind(this)
@@ -33,7 +34,15 @@ export class Code extends React.Component {
     this.updateCode = this.updateCode.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+      const data =  await fetch('/get-port');
+      const json =  await data.json();
+      this.setState(json);
+
+
+
+      const PORT = this.state.message
+
     const initialMsg ={
       room: this.props.match.url,
       type: "initialMsg"

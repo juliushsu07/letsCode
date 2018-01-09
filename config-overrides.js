@@ -1,7 +1,7 @@
 module.exports = (config, env) => {
-  config.plugins.push({
+  config.module.rules.push({
     new webpack.DefinePlugin({
-      'process.env': {
+      process.env: {
          PORT: process.env.PORT
       }
     })

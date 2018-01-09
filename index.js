@@ -12,6 +12,10 @@ app
   .use(https)
   .use(helmet());
 
+app.get('/get-port',function (req, res, next) {
+  res.json({ port: PORT });
+});
+
 // Create the WebSockets server
 const server = http.createServer(app);
 const wss = new WebSocket({ server });
