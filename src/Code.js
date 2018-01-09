@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import CodeMirror from 'react-codemirror';
 import { Button } from 'react-bootstrap';
 // require('dotenv').config();
-// const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001;
 // console.log(`server port on top: ${PORT}`);
 
 
@@ -44,8 +44,8 @@ export class Code extends React.Component {
       room: this.props.match.url,
       type: "initialMsg"
     }
-    // const url = `ws://${window.location.hostname}:${PORT}`; // for localhost
-    const url = `wss://${window.location.hostname}:${window.location.port}`; //for deployment
+    const url = `ws://${window.location.hostname}:${PORT}`; // for localhost
+    // const url = `wss://${window.location.hostname}:${window.location.port}`; //for deployment
     console.log(`url:${url}`);
     this.socket = new WebSocket(url);
     this.socket.onopen = () => {
