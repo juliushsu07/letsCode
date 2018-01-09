@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import CodeMirror from 'react-codemirror';
 import { Button } from 'react-bootstrap';
-require('dotenv').config();
-// const PORT = process.env.PORT;
+// require('dotenv').config();
+const PORT = process.env.PORT || 3001;
 // console.log(`server port on top: ${PORT}`);
 
 
@@ -35,20 +35,17 @@ export class Code extends React.Component {
   }
 
   async componentWillMount() {
-      const data =  await fetch('/get-port');
-      const json =  await data.json();
-      console.log(json);
-      this.setState(json);
-
-
-
-      const PORT = this.state.port
+    const data =  await fetch('/get-port');
+    const json =  await data.json();
+    console.log(`json from node server: ${json}`);
+    this.setState(json);
 
     const initialMsg ={
       room: this.props.match.url,
       type: "initialMsg"
     }
-    const url = `wss://${window.location.hostname}:${window.location.port}`;
+    const url = `ws://${window.location.hostname}:${PORT}`; // for localhost
+    // const url = `wss://${window.location.hostname}:${window.location.port}`; //for deployment
     console.log(`url:${url}`);
     this.socket = new WebSocket(url);
     this.socket.onopen = () => {
