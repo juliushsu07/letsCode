@@ -1,65 +1,93 @@
 import React, {Component} from 'react';
 import SimpleWebRTC from 'simplewebrtc';
-import appendReactDOM from 'append-react-dom';
-
+import ReactDOM from 'react-dom'
 
 
 export default class Video extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state ={
       room : this.props.room,
-      webrtc : new SimpleWebRTC({
-        localVideoEl: 'localVideo',
-        // the id/element dom element that will hold remote videos
-        remoteVideosEl: 'remoteVideos'
-        // immediately ask for camera access
-      })
-    };
-    this.startVideo = this.startVideo.bind(this);
-    this.endVideo = this.endVideo.bind(this);
-  }
-  ComponentDidMount () {
-    this.state.webrtc.joinRoom(this.state.room);
-  }
-  componentWillMount () {
-    const script = document.createElement("script");
+      videoStarted : false
+    }
+    this.addVideo = this.addVideo.bind(this);
+    this.removeVideo = this.removeVideo.bind(this);
+    this.readyToCall = this.readyToCall.bind(this);
 
-    script.src = "https://simplewebrtc.com/latest-v2.js";
-    script.async = true;
-    document.body.appendChild(script);
+    this.startAllVideo = this.startAllVideo.bind(this);
+    this.stopAllVideo = this.stopAllVideo.bind(this);
   }
 
-  startVideo(event){
-    console.log(this.state.webrtc);
-    this.state.webrtc.startLocalVideo();
-    this.state.webrtc.resume()
-    document.getElementById("localVideo").style.display = 'block';
-    document.getElementById("remoteVideos").style.display = 'block';
+  componentDidMount() {
+    console.log(this.props.startVideo);
+    console.log(this.props.room);
+    this.webrtc = new SimpleWebRTC({
+      localVideoEl: ReactDOM.findDOMNode(this.refs.local),
+      remoteVideosEl: ""
+    });
+
+    console.log("webrtc component mounted");
+    this.webrtc.on('readyToCall', this.readyToCall);
+    this.webrtc.on('videoAdded', this.addVideo);
+    this.webrtc.on('videoRemoved', this.removeVideo);
   }
 
-  endVideo(event){
-    this.state.webrtc.stopLocalVideo();
-    this.state.webrtc.pause();
-    document.getElementById("localVideo").style.display = 'none';
-    document.getElementById("remoteVideos").style.display = 'none';
+  startAllVideo(){
+    // this.webrtc.joinRoom(this.state.room);
+    if(!this.state.videoStarted){
+      this.webrtc.startLocalVideo();
+      this.setState({videoStarted : true});
+    }
+    this.webrtc.resume();
+  }
+  stopAllVideo(){
+    // this.webrtc.leaveRoom(this.state.room);
+    // this.webrtc.stopLocalVideo();
+    this.webrtc.pause();
+
+  }
+
+
+  addVideo(video, peer) {
+    console.log('video added', peer);
+    //  console.log(this.refs.remotes);
+    var remotes = ReactDOM.findDOMNode(this.refs.remotes);
+    console.log("inaddvideo: ",remotes);
+    if (remotes) {
+      var container = document.createElement('div');
+      container.className = 'videoContainer';
+      container.id = 'container_' + this.webrtc.getDomId(peer);
+      container.appendChild(video);
+      // suppress contextmenu
+      video.oncontextmenu = function() {
+        return false;
+      };
+      console.log(container);
+      remotes.appendChild(container);
+    }
+  }
+
+  removeVideo(video, peer) {
+    console.log('video removed ', peer);
+    var remotes = ReactDOM.findDOMNode(this.refs.remotes);
+    var el = document.getElementById(peer ? 'container_' + this.webrtc.getDomId(peer) : 'localScreenContainer');
+    if (remotes && el) {
+      remotes.removeChild(el);
+    }
+  }
+
+  readyToCall() {
+    return this.webrtc.joinRoom(this.state.room);
   }
 
   render() {
-    console.log("Rendering <Video/>");
-
-
     return (
       <div>
-        <div className="local-video-container">
-          <video id="localVideo" ></video>
-          <div className="video-buttons">
-            <button onClick= {this.startVideo}>Video On</button>
-            <button onClick= {this.endVideo}>Video Off</button>
-          </div>
-        </div>
-        <div id="remoteVideos"></div>
-      </div>
+        <button onClick= {this.startAllVideo}>Video On</button>
+        <button onClick= {this.stopAllVideo}>Video Off</button>
+        <video className = "local" id = "localVideo" ref = "local"> </video>
+        <div className = "remotes" id = "remoteVideos" ref = "remotes"></div>
+      </div >
     );
   }
 }

@@ -22,7 +22,8 @@ export class Code extends React.Component {
         type : '',
         mode : 'javascript'
       },
-      evaluated_code : ""
+      evaluated_code : "",
+      startVideo : false
     };
 
     this.evaluateCode = this.evaluateCode.bind(this)
@@ -86,6 +87,17 @@ export class Code extends React.Component {
       }
   }
 
+  // startVideo(){
+  //   this.setState({startVideo : true});
+  //   console.log(this.state.startVideo);
+
+  // }
+
+  // stopVideo(){
+  //   this.setState({startVideo : false});
+  //   console.log(this.state.startVideo);
+  // }
+
   render() {
     console.log("Rendering <Code/>");
 
@@ -109,7 +121,7 @@ export class Code extends React.Component {
             <small style={{color: "blue",fontSize: "15px"}}>Output</small><br/>{JSON.stringify(this.state.evaluated_code)}
           </span>
         </form>
-        <Video room = {this.state.message.room} />
+        <Video room = {this.state.message.room} startVideo ={this.state.startVideo} />
       </div>
     );
   }

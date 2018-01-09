@@ -50,6 +50,8 @@
     "react-codemirror": "git://github.com/skidding/react-codemirror.git#106-fix-update",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
-    "simplewebrtc": "^3.0.1"
+    "react-simplewebrtc": "0.0.18",
+    "simplewebrtc": "^3.0.1",
+    "webrtc-adapter": "^6.0.4"
   }
 }
