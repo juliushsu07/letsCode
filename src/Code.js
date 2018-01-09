@@ -37,6 +37,7 @@ export class Code extends React.Component {
   async componentWillMount() {
       const data =  await fetch('/get-port');
       const json =  await data.json();
+      console.log(json);
       this.setState(json);
 
 
@@ -47,7 +48,7 @@ export class Code extends React.Component {
       room: this.props.match.url,
       type: "initialMsg"
     }
-    const url = `wss://${window.location.hostname}:${PORT}`;
+    const url = `wss://${window.location.hostname}:${window.location.port}`;
     console.log(`url:${url}`);
     this.socket = new WebSocket(url);
     this.socket.onopen = () => {
