@@ -14,6 +14,7 @@
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
+    "simplewebrtc": "^3.0.1",
     "ws": "3.3.2"
   },
   "devDependencies": {
@@ -31,5 +32,5 @@
     "yarn": "1.3.2",
     "npm": "5.5.1"
   },
-  "proxy":"http://localhost:3001"
+  "proxy": "http://localhost:3001"
 }
