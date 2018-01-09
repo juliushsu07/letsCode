@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import CodeMirror from 'react-codemirror';
 import { Button } from 'react-bootstrap';
 require('dotenv').config();
-const PORT = process.env.PORT;
+// const PORT = process.env.PORT;
 console.log(`server port on top: ${PORT}`);
 
 
@@ -41,7 +41,7 @@ export class Code extends React.Component {
 
 
 
-      const PORT = this.state.message
+      const PORT = this.state.port
 
     const initialMsg ={
       room: this.props.match.url,
