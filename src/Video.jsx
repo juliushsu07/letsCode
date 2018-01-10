@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import SimpleWebRTC from 'simplewebrtc';
-import ReactDOM from 'react-dom'
-
+import ReactDOM from 'react-dom';
 
 export default class Video extends React.Component {
   constructor(props) {
@@ -40,6 +39,9 @@ export default class Video extends React.Component {
     this.webrtc.resume();
   }
   stopAllVideo(){
+    if(this.state.videoStarted){
+    this.webrtc.stopLocalVideo();
+    }
     this.webrtc.pause();
   }
 
@@ -75,10 +77,18 @@ export default class Video extends React.Component {
   render() {
     return (
       <div>
-        <button onClick= {this.startAllVideo}>Video On</button>
-        <button onClick= {this.stopAllVideo}>Video Off</button>
-        <video className = "local" id = "localVideo" ref = "local"> </video>
-        <div className = "remotes" id = "remoteVideos" ref = "remotes"></div>
+
+
+
+                <button onClick= {this.startAllVideo}>Video On</button>
+                <button onClick= {this.stopAllVideo}>Video Off</button>
+                <div id="videosection" >
+                <video className = "local" id = "localVideo" ref = "local"> </video>
+                <div className = "remotes" id = "remoteVideos" ref = "remotes"></div>
+                </div>
+
+
+
       </div >
     );
   }

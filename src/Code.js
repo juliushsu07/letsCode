@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import CodeMirror from 'react-codemirror';
-import { Button } from 'react-bootstrap';
+import { Button, Grid, Row, Col } from 'react-bootstrap';
 import Video from './Video.jsx';
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001;  // comment this line when deploying to heroku
 
 const isBrowser = typeof window !== 'undefined';
 isBrowser ? function(){
@@ -43,8 +43,8 @@ export class Code extends React.Component {
       room: this.props.match.url,
       type: "initialMsg"
     }
-    const url = `ws://${window.location.hostname}:${PORT}`; // for localhost
-    // const url = `wss://${window.location.hostname}:${window.location.port}`; //for deployment
+    const url = `ws://${window.location.hostname}:${PORT}`; // for localhost only. comment when deploying
+    // const url = `wss://${window.location.hostname}:${window.location.port}`; //for deployment only. uncomment when deploying
     console.log(`url:${url}`);
     this.socket = new WebSocket(url);
     this.socket.onopen = () => {
@@ -100,6 +100,36 @@ export class Code extends React.Component {
   }
 
   render() {
+
+        const gridInstance = (
+        <Grid>
+          <Row className="show-grid">
+            <Col xs={4} md={10} sm={8}>
+
+                <form  onSubmit={this.handleSubmit}>
+                  <Button type="submit">  Run ...  </Button>
+                  <CodeMirror value={this.state.message.code} ref="editor" onChange={this.updateCode} options={options}  evaluateCode={this.evaluateCode}  autoFocus={true}/>
+                  <span >
+                    <small style={{color: "tomato",fontSize: "15px"}}>Output</small>
+                    <br/>
+                    <span style={{color: "white",fontSize: "15px"}}>
+                    {JSON.stringify(this.state.evaluated_code)}
+                    </span>
+                  </span>
+                </form>
+
+
+            </Col>
+            <Col xs={1} md={2} sm={2}>
+
+                <Video room = {this.state.message.room} />
+
+
+            </Col>
+          </Row>
+        </Grid>
+        )
+
     let options = {
       lineNumbers: true,
       mode: 'javascript',
@@ -111,21 +141,10 @@ export class Code extends React.Component {
     };
 
     return (
-      <div>
 
-        <form  onSubmit={this.handleSubmit}>
-          <Button type="submit">  Run ...  </Button>
-          <CodeMirror value={this.state.message.code} ref="editor" onChange={this.updateCode} options={options}  evaluateCode={this.evaluateCode}  autoFocus={true}/>
-          <span >
-            <small style={{color: "tomato",fontSize: "15px"}}>Output</small>
-            <br/>
-            <span style={{color: "white",fontSize: "15px"}}>
-            {JSON.stringify(this.state.evaluated_code)}
-            </span>
-          </span>
-        </form>
-        <Video room = {this.state.message.room} />
-      </div>
+      gridInstance
+
+
     );
   }
 }
