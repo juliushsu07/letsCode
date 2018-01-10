@@ -3,7 +3,7 @@ import CodeMirror from 'react-codemirror';
 import { Button, Grid, Row, Col } from 'react-bootstrap';
 import Video from './Video.jsx';
 
-// const PORT = process.env.PORT || 3001;  // comment this line when deploying to heroku
+const PORT = process.env.PORT || 3001;  // comment this line when deploying to heroku
 
 const isBrowser = typeof window !== 'undefined';
 isBrowser ? function(){
@@ -43,8 +43,8 @@ export class Code extends React.Component {
       room: this.props.match.url,
       type: "initialMsg"
     }
-    // const url = `ws://${window.location.hostname}:${PORT}`; // for localhost only. comment when deploying
-    const url = `wss://${window.location.hostname}:${window.location.port}`; //for deployment only. uncomment when deploying
+    const url = `ws://${window.location.hostname}:${PORT}`; // for localhost only. comment when deploying
+    // const url = `wss://${window.location.hostname}:${window.location.port}`; //for deployment only. uncomment when deploying
     console.log(`url:${url}`);
     this.socket = new WebSocket(url);
     this.socket.onopen = () => {
@@ -107,15 +107,17 @@ export class Code extends React.Component {
             <Col xs={4} md={10} sm={8}>
 
                 <form  onSubmit={this.handleSubmit}>
-                  <Button type="submit">  Run ...  </Button>
+
                   <CodeMirror value={this.state.message.code} ref="editor" onChange={this.updateCode} options={options}  evaluateCode={this.evaluateCode}  autoFocus={true}/>
                   <span >
                     <small style={{color: "tomato",fontSize: "15px"}}>Output</small>
+                    <Button style={{float: "right"}} type="submit">  Run ...  </Button>
                     <br/>
                     <span style={{color: "white",fontSize: "15px"}}>
                     {JSON.stringify(this.state.evaluated_code)}
                     </span>
                   </span>
+
                 </form>
 
 

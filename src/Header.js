@@ -14,16 +14,12 @@ export default class Header  extends React.Component {
       links = (
         <ul className="nav navbar-nav navbar-right">
           <li> <SharePopUp roomURL = {roomURL}/></li>
-          <li><Link to="/signup">Signup</Link></li>
-          <li><Link to="/login">Login</Link></li>
         </ul>
       )
 
     } else{
       links = (
         <ul className="nav navbar-nav navbar-right">
-          <li><Link to="/signup">Signup</Link></li>
-          <li><Link to="/login">Login</Link></li>
         </ul>
       )
     }
