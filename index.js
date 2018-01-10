@@ -20,14 +20,12 @@ app.get('/get-port',function (req, res, next) {
 const server = http.createServer(app);
 const wss = new WebSocket({ server });
 
-let code = {}
+let code = {};
+let evaluated_code ={};
 
 wss.broadcast = function broadcast(message) {
   wss.clients.forEach(function each(client) {
-    console.log(client.room, message.room)
     if(client.room === message.room ){
-      console.log("sending message to rooms: ", message.room);
-
       client.send(JSON.stringify(message));
     }
   });
@@ -38,7 +36,6 @@ wss.on('connection', (client) => {
 
   client.on('message', (message) => {
     incomingMessage = JSON.parse(message);
-    console.log(incomingMessage);
     // client.room = incomingMessage.room
     switch(incomingMessage.type) {
       case "initialMsg":
@@ -47,19 +44,21 @@ wss.on('connection', (client) => {
         if(code[incomingMessage.room]) {
           client.send(JSON.stringify({type: "updateCode",
                                       room: incomingMessage.room,
-                                      code: code[incomingMessage.room]}))
+                                      code: code[incomingMessage.room],
+                                      evaluated_code: evaluated_code[incomingMessage.room]
+                                    }))
         } else {
           code[incomingMessage.room] = "";
         }
-        console.log("new Client room:", client.room);
       break;
 
       case "updateCode":
-        console.log("inSERVER UPDATE CASE:" ,incomingMessage);
-
-        console.log("11:",client.code, incomingMessage.code )
         code[incomingMessage.room] = incomingMessage.code;
-        console.log(client.code);
+        wss.broadcast(incomingMessage);
+      break;
+
+      case "evaluateCode":
+        evaluated_code[incomingMessage.room] = incomingMessage.evaluated_code;
         wss.broadcast(incomingMessage);
       break;
     }
