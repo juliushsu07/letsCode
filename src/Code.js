@@ -81,6 +81,7 @@ export class Code extends React.Component {
 
 evaluateCode (code){
       let message = {
+        code: code,
         evaluated_code: "",
         room: this.state.message.room,
         type: "evaluateCode"
