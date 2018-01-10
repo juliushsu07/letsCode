@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import CodeMirror from 'react-codemirror';
 import { Button, Grid, Row, Col } from 'react-bootstrap';
-import Video from './Video.jsx';
+import Video from './Video';
+
 
 const PORT = process.env.PORT || 3001;  // comment this line when deploying to heroku
 
@@ -18,14 +19,11 @@ export class Code extends React.Component {
     super(props);
     this.state = {
       message : {
-        code : this.props.code,
-        // TODO set room to this.props
+        code : '',
+        evaluated_code : "",
         room : this.props.match.url,
-        type : '',
-        mode : 'javascript'
-      },
-      evaluated_code : "",
-      port: ""
+        type : ''
+      }
     };
 
     this.evaluateCode = this.evaluateCode.bind(this)
@@ -49,21 +47,19 @@ export class Code extends React.Component {
     this.socket = new WebSocket(url);
     this.socket.onopen = () => {
       console.log('connected to server');
-      console.log(initialMsg)
       // send initial msg
       this.socket.send(JSON.stringify(initialMsg));
     }
     this.socket.onmessage = (t) => {
       const newMessage = JSON.parse(t.data);
-      console.log("onclientrecieve", newMessage);
 
       switch(newMessage.type) {
-        case "changeRoom":
-
-        break;
         case "updateCode":
           this.setState( {message: newMessage});
-          console.log(this.state.message);
+        break;
+
+        case "evaluateCode":
+          this.setState ({message:newMessage});
         break;
       }
     }
@@ -72,12 +68,10 @@ export class Code extends React.Component {
   updateCode(newCode){
     const message = {
         code: newCode,
+        evaluated_code: this.state.message.evaluated_code,
         room: this.state.message.room,
         type: "updateCode"
     }
-    this.setState({
-      code: newCode
-    });
     this.socket.send(JSON.stringify(message));
   }
 
@@ -86,22 +80,38 @@ export class Code extends React.Component {
     this.evaluateCode(this.state.message.code);
   }
 
-  evaluateCode (code){
+evaluateCode (code){
+      let message = {
+        code: code,
+        evaluated_code: "",
+        room: this.state.message.room,
+        type: "evaluateCode"
+      };
       try {
         const evaluated_code = eval(code);
-        if (evaluated_code === undefined){
-          this.setState({evaluated_code :"undefined" });
+        if (evaluated_code == undefined){
+          message.evaluated_code = "undefined"
         } else {
-          this.setState({evaluated_code :evaluated_code });
+          message.evaluated_code = evaluated_code;
         }
       } catch (e) {
-        this.setState({evaluated_code: e.toString()});
+          message.evaluated_code = e.toString();
       }
+      this.socket.send(JSON.stringify(message));
   }
 
   render() {
+      let options = {
+        lineNumbers: true,
+        mode: 'javascript',
+        lineWrapping: true,
+        lint: true,
+        gutters: [
+          'CodeMirror-lint-markers',
+        ]
+      };
 
-        const gridInstance = (
+      const gridInstance = (
         <Grid>
           <Row className="show-grid">
             <Col xs={4} md={10} sm={8}>
@@ -114,39 +124,20 @@ export class Code extends React.Component {
                     <Button style={{float: "right"}} type="submit">  Run ...  </Button>
                     <br/>
                     <span style={{color: "white",fontSize: "15px"}}>
-                    {JSON.stringify(this.state.evaluated_code)}
+                    {this.state.message.evaluated_code}
                     </span>
                   </span>
-
                 </form>
-
-
             </Col>
             <Col xs={1} md={2} sm={2}>
-
                 <Video room = {this.state.message.room} />
-
-
             </Col>
           </Row>
         </Grid>
-        )
-
-    let options = {
-      lineNumbers: true,
-      mode: 'javascript',
-      lineWrapping: true,
-      lint: true,
-      gutters: [
-        'CodeMirror-lint-markers',
-      ]
-    };
+    )
 
     return (
-
       gridInstance
-
-
     );
   }
 }
