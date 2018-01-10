@@ -17,13 +17,11 @@ export class Code extends React.Component {
     this.state = {
       message : {
         code : '',
-        // TODO set room to this.props
+        evaluated_code : "",
         room : this.props.match.url,
         type : '',
         mode : 'javascript'
-      },
-      evaluated_code : "",
-      startVideo : false
+      }
     };
 
     this.evaluateCode = this.evaluateCode.bind(this)
@@ -46,12 +44,11 @@ export class Code extends React.Component {
     this.socket.onmessage = () => {
       const newMessage = JSON.parse(event.data);
       switch(newMessage.type) {
-        case "changeRoom":
-
+        case "evaluateCode":
+          this.setState ({message:newMessage});
         break;
         case "updateCode":
           this.setState( {message: newMessage});
-          console.log(this.state.message);
         break;
       }
     }
@@ -60,12 +57,10 @@ export class Code extends React.Component {
   updateCode(newCode){
     const message = {
         code: newCode,
+        evaluated_code: this.state.message.evaluated_code,
         room: this.state.message.room,
         type: "updateCode"
     }
-    this.setState({
-      code: newCode
-    });
     this.socket.send(JSON.stringify(message));
   }
 
@@ -75,20 +70,26 @@ export class Code extends React.Component {
   }
 
   evaluateCode (code){
+      let message = {
+        evaluated_code: "",
+        room: this.state.message.room,
+        type: "evaluateCode"
+      };
       try {
         const evaluated_code = eval(code);
         if (evaluated_code == undefined){
-          this.setState({evaluated_code :"undefined" });
+          message.evaluated_code = "undefined"
         } else {
-          this.setState({evaluated_code :evaluated_code });
+          message.evaluated_code = evaluated_code;
         }
       } catch (e) {
-        this.setState({evaluated_code: e.toString()});
+          message.evaluated_code = e.toString();
       }
+      this.socket.send(JSON.stringify(message));
   }
 
   render() {
-    console.log("Rendering <Code/>");
+
 
     let options = {
       lineNumbers: true,
@@ -107,7 +108,7 @@ export class Code extends React.Component {
           <input type="submit" value="Run" />
           <CodeMirror value={this.state.message.code} ref="editor" onChange={this.updateCode} options={options}  evaluateCode={this.evaluateCode}  autoFocus={true}/>
           <span >
-            <small style={{color: "blue",fontSize: "15px"}}>Output</small><br/>{JSON.stringify(this.state.evaluated_code)}
+            <small style={{color: "blue",fontSize: "15px"}}>Output</small><br/>{this.state.message.evaluated_code}
           </span>
         </form>
         <Video room = {this.state.message.room} />

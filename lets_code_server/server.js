@@ -20,17 +20,15 @@ const wss = new WebSocket.Server({ server });
 // the ws parameter in the callback.
 wss.broadcast = function broadcast(message) {
   wss.clients.forEach(function each(client) {
-    console.log(client.room, message.room)
     if(client.room === message.room ){
-      console.log("sending message to rooms: ", message.room);
-
       client.send(JSON.stringify(message));
     }
   });
 };
 
 // TODO data base
-let code = {}
+let code = {};
+// let evaluated_code = {};
 
 wss.on('connection', (client) => {
   console.log('Client connected');
@@ -50,15 +48,14 @@ wss.on('connection', (client) => {
         } else {
           code[incomingMessage.room] = "";
         }
-        console.log("new Client room:", client.room);
       break;
 
       case "updateCode":
-        console.log("inSERVER UPDATE CASE:" ,incomingMessage);
-
-        console.log("11:",client.code, incomingMessage.code )
         code[incomingMessage.room] = incomingMessage.code;
-        console.log(client.code);
+        wss.broadcast(incomingMessage);
+      break;
+
+      case "evaluateCode":
         wss.broadcast(incomingMessage);
       break;
     }
