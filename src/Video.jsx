@@ -39,9 +39,9 @@ export default class Video extends React.Component {
     this.webrtc.resume();
   }
   stopAllVideo(){
-    if(this.state.videoStarted){
-    this.webrtc.stopLocalVideo();
-    }
+    // if(this.state.videoStarted){
+    // this.webrtc.stopLocalVideo();
+    // }
     this.webrtc.pause();
   }
 
