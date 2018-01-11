@@ -20,7 +20,11 @@ export class Code extends React.Component {
         // TODO set room to this.props
         room : this.props.match.url,
         type : '',
-        mode : 'javascript'
+        mode : 'javascript',
+        cursor: {
+          line: 0,
+          ch: 0
+        }
       },
       evaluated_code : "",
       startVideo : false
@@ -29,6 +33,7 @@ export class Code extends React.Component {
     this.evaluateCode = this.evaluateCode.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateCode = this.updateCode.bind(this);
+
   }
 
   componentDidMount() {
@@ -51,6 +56,7 @@ export class Code extends React.Component {
         break;
         case "updateCode":
           this.setState( {message: newMessage});
+          this.refs.editor.getCodeMirror().setCursor(this.state.message.cursor.line, this.state.message.cursor.ch);
           console.log(this.state.message);
         break;
       }
@@ -58,14 +64,16 @@ export class Code extends React.Component {
   }
 
   updateCode(newCode){
+    // console.log(this.refs.editor.getCodeMirror().getCursor().line);
+    // console.log(this.refs.editor.getCodeMirror().getCursor().ch);
+
     const message = {
         code: newCode,
         room: this.state.message.room,
-        type: "updateCode"
+        type: "updateCode",
+        cursor: {line: this.refs.editor.getCodeMirror().getCursor().line, ch:this.refs.editor.getCodeMirror().getCursor().ch}
     }
-    this.setState({
-      code: newCode
-    });
+
     this.socket.send(JSON.stringify(message));
   }
 
@@ -105,7 +113,7 @@ export class Code extends React.Component {
         <h1>Hello and Lets Code :)</h1>
         <form  onSubmit={this.handleSubmit}>
           <input type="submit" value="Run" />
-          <CodeMirror value={this.state.message.code} ref="editor" onChange={this.updateCode} options={options}  evaluateCode={this.evaluateCode}  autoFocus={true}/>
+          <CodeMirror ref="editor" value={this.state.message.code} onChange={this.updateCode} options={options}  evaluateCode={this.evaluateCode}  autoFocus={true}/>
           <span >
             <small style={{color: "blue",fontSize: "15px"}}>Output</small><br/>{JSON.stringify(this.state.evaluated_code)}
           </span>
