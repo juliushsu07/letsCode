@@ -114,7 +114,7 @@ evaluateCode (code){
       const gridInstance = (
         <Grid>
           <Row className="show-grid">
-            <Col xs={12} md={10} sm={8}>
+            <Col xs={4} md={10} sm={8}>
 
                 <form  onSubmit={this.handleSubmit}>
 
@@ -129,7 +129,7 @@ evaluateCode (code){
                   </span>
                 </form>
             </Col>
-            <Col xs={8} md={2} sm={2}>
+            <Col xs={1} md={2} sm={2}>
                 <Video room = {this.state.message.room} />
             </Col>
           </Row>
