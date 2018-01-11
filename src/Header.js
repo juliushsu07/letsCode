@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import SharePopUp from "./SharePopUp.js"
+import SharePopUp from "./SharePopUp.js";
+import { Navbar, NavItem, Nav } from 'react-bootstrap';
 
 
 export default class Header  extends React.Component {
@@ -11,9 +12,7 @@ export default class Header  extends React.Component {
 
     if (roomURL.indexOf("/room") >= 0) {
       links = (
-        <ul className="nav navbar-nav navbar-right">
-          <li> <SharePopUp roomURL = {roomURL}/></li>
-        </ul>
+          <SharePopUp roomURL = {roomURL}/>
       )
 
     } else{
@@ -24,16 +23,22 @@ export default class Header  extends React.Component {
     }
 
     return (
-      <nav className="navbar navbar-inverse navbar-fixed-top">
-        <div className="container-fluid">
-          <div className="navbar-header">
-            <a className="navbar-brand" href="/">letsCode</a>
-          </div>
-          <div>
-            {links}
-          </div>
-        </div>
-      </nav>
+        <Navbar inverse collapseOnSelect fixedTop="true">
+          <Navbar.Header>
+            <Navbar.Brand>
+              <a href="/">letsCode</a>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          <Navbar.Collapse>
+            <Nav pullRight>
+                {links}
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+
+
+
     );
   }
 }
