@@ -10,7 +10,6 @@ export default class Footer extends Component {
           <div className="navbar-header">
           </div>
           <ul className="nav navbar-nav navbar-right">
-            <li><a href="#">Place Call</a></li>
           </ul>
         </div>
       </nav>

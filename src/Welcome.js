@@ -17,7 +17,7 @@ export class Welcome extends Component {
         <Jumbotron align="middle" className="bsStyle">
           <h1>let's Code</h1><br/>
           <p>This is a simple code play ground that allows you to share code in real time.</p><br/><br/>
-          <Button bsStyle="default" bsSize="large"><Link to={roomIdGenerator()}>Code</Link></Button>
+          <Link to={roomIdGenerator()}><Button bsStyle="default" bsSize="large">Code</Button></Link>
         </Jumbotron>
     );
   }
