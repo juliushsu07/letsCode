@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 export default class Footer extends Component {
 
   render() {
-    console.log("Rendering <Footer/>");
 
     return (
      <nav className="  navbar-default navbar-fixed-bottom">

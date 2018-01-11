@@ -5,7 +5,6 @@ import SharePopUp from "./SharePopUp.js"
 
 export default class Header  extends React.Component {
   render() {
-    console.log("Rendering <Header/>");
 
     let links;
     const roomURL = this.props.match.url
