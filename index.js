@@ -22,6 +22,8 @@ const wss = new WebSocket({ server });
 
 let code = {};
 let evaluated_code ={};
+let line = {};
+let ch = {};
 
 wss.broadcast = function broadcast(message) {
   wss.clients.forEach(function each(client) {
@@ -44,6 +46,10 @@ wss.on('connection', (client) => {
         if(code[incomingMessage.room]) {
           client.send(JSON.stringify({type: "updateCode",
                                       room: incomingMessage.room,
+                                      cursor: {
+                                        line: incomingMessage.cursor.line,
+                                        ch: incomingMessage.cursor.ch
+                                      },
                                       code: code[incomingMessage.room],
                                       evaluated_code: evaluated_code[incomingMessage.room]
                                     }))
@@ -54,11 +60,17 @@ wss.on('connection', (client) => {
 
       case "updateCode":
         code[incomingMessage.room] = incomingMessage.code;
+        line[incomingMessage.room] = incomingMessage.cursor.line;
+        ch[incomingMessage.room] = incomingMessage.cursor.ch;
+
+
         wss.broadcast(incomingMessage);
       break;
 
       case "evaluateCode":
         evaluated_code[incomingMessage.room] = incomingMessage.evaluated_code;
+        line[incomingMessage.room] = incomingMessage.cursor.line;
+        ch[incomingMessage.room] = incomingMessage.cursor.ch;
         wss.broadcast(incomingMessage);
       break;
     }

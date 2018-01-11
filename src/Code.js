@@ -22,7 +22,11 @@ export class Code extends React.Component {
         code : '',
         evaluated_code : "",
         room : this.props.match.url,
-        type : ''
+        type : '',
+        cursor: {
+          line: 0,
+          ch: 0
+        }
       }
     };
 
@@ -39,7 +43,11 @@ export class Code extends React.Component {
 
     const initialMsg ={
       room: this.props.match.url,
-      type: "initialMsg"
+      type: "initialMsg",
+      cursor: {
+        line: this.refs.editor.getCodeMirror().getCursor().line,
+        ch:this.refs.editor.getCodeMirror().getCursor().ch
+      }
     }
     const url = `ws://${window.location.hostname}:${PORT}`; // for localhost only. comment when deploying
     // const url = `wss://${window.location.hostname}:${window.location.port}`; //for deployment only. uncomment when deploying
@@ -56,10 +64,12 @@ export class Code extends React.Component {
       switch(newMessage.type) {
         case "updateCode":
           this.setState( {message: newMessage});
+          this.refs.editor.getCodeMirror().setCursor(this.state.message.cursor.line, this.state.message.cursor.ch);
         break;
 
         case "evaluateCode":
           this.setState ({message:newMessage});
+          this.refs.editor.getCodeMirror().setCursor(this.state.message.cursor.line, this.state.message.cursor.ch);
         break;
       }
     }
@@ -70,7 +80,8 @@ export class Code extends React.Component {
         code: newCode,
         evaluated_code: this.state.message.evaluated_code,
         room: this.state.message.room,
-        type: "updateCode"
+        type: "updateCode",
+        cursor: {line: this.refs.editor.getCodeMirror().getCursor().line, ch:this.refs.editor.getCodeMirror().getCursor().ch}
     }
     this.socket.send(JSON.stringify(message));
   }
@@ -85,7 +96,8 @@ evaluateCode (code){
         code: code,
         evaluated_code: "",
         room: this.state.message.room,
-        type: "evaluateCode"
+        type: "evaluateCode",
+        cursor: {line: this.refs.editor.getCodeMirror().getCursor().line, ch:this.refs.editor.getCodeMirror().getCursor().ch}
       };
       try {
         const evaluated_code = eval(code);
